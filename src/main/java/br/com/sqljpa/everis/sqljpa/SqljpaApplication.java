@@ -13,11 +13,11 @@ import br.com.sqljpa.everis.sqljpa.entities.People;
 import br.com.sqljpa.everis.sqljpa.reporitories.PeopleRepository;
 
 @SpringBootApplication
-public class SqljpaApplication implements CommandLineRunner{
+public class SqljpaApplication implements CommandLineRunner {
 
 	@Autowired
 	private PeopleRepository peopleRepository;
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(SqljpaApplication.class, args);
 	}
@@ -29,15 +29,15 @@ public class SqljpaApplication implements CommandLineRunner{
 		System.out.println("*************Hora Inicial**************");
 		System.out.println(LocalDateTime.now());
 		System.out.println("****************************************");
-		
-		peopleRepository.saveAll(createPeople());		
 
+		// peopleRepository.saveAll(createPeople());
+		createPeopleOneToOne();
 		System.out.println("*************Hora Final**************");
 		System.out.println(LocalDateTime.now());
 		System.out.println("*************Comitado**************");
-		System.out.println("****************************************");		
+		System.out.println("****************************************");
 	}
-	
+
 	private Collection<People> createPeople() {
 		Collection<People> peoples = new ArrayList<People>();
 		People people = new People();
@@ -46,5 +46,13 @@ public class SqljpaApplication implements CommandLineRunner{
 			peoples.add(people);
 		}
 		return peoples;
+	}
+
+	private void createPeopleOneToOne() {
+		People people = new People();
+		for (int i = 0; i < 7000000; i++) {
+			people = new People(null, "Dev_Java_" + i);
+			peopleRepository.save(people);
+		}
 	}
 }
