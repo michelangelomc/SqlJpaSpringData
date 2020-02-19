@@ -3,6 +3,7 @@ package br.com.sqljpa.everis.sqljpa;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +23,8 @@ public class SqljpaApplication implements CommandLineRunner {
 		SpringApplication.run(SqljpaApplication.class, args);
 	}
 
+	Boolean hasDeleted = true;
+
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("****************************************");
@@ -36,6 +39,34 @@ public class SqljpaApplication implements CommandLineRunner {
 		System.out.println(LocalDateTime.now());
 		System.out.println("*************Comitado**************");
 		System.out.println("****************************************");
+
+		if (hasDeleted) {
+			System.out.println("                                        ");
+			System.out.println("****************************************");
+			System.out.println("****************************************");
+
+			System.out.println("************Delete**************");
+			System.out.println("*************Hora Inicial**************");
+			System.out.println(LocalDateTime.now());
+			System.out.println("****************************************");
+
+			try {
+				List<People> peopleForDelete = peopleRepository.findAll();
+				for (People people : peopleForDelete) {
+					peopleRepository.delete(people);
+				}
+
+			} catch (Exception e) {
+				System.out.println("Erro no delete ==>" + e.getMessage());
+			}
+
+			System.out.println("****************************************");
+			System.out.println("*************Hora Final**************");
+			System.out.println(LocalDateTime.now());
+			System.out.println("*************Comitado**************");
+			System.out.println("****************************************");
+		}
+
 	}
 
 	private Collection<People> createPeople() {
